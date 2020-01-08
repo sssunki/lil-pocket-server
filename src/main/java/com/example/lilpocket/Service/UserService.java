@@ -1,55 +1,34 @@
 package com.example.lilpocket.Service;
 
 import com.example.lilpocket.Bean.User;
+import com.example.lilpocket.DAO.ConnectedMapDAO;
 import com.example.lilpocket.DAO.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService{
 
+    private ConnectedMapDAO connetctedUserDAO;
     private UserDAO userDAO;
     private final int ACCOUNT_EXISTS = 1;
     private final int ACCOUNT_NOT_EXISTS = 0;
 
+    // public method will be call by controller
+
     @Autowired
-    public UserService(UserDAO userDAO) {
+    public UserService(UserDAO userDAO, ConnectedMapDAO connetctedUserDAO) {
         this.userDAO = userDAO;
+        this.connetctedUserDAO = connetctedUserDAO;
     }
 
-
-//    public boolean logIn (String account, String password) {
-//        return true;
-//    }
-//
-//    /**
-//     * test period method
-//     * @param user
-//     */
-//    public void insertUser(User user) {
-//        userDAO.insertUser(user);
-//    }
-//
-//    /**
-//     * test period method
-//     * @param account
-//     * @return
-//     */
-//    public User getUser(String account) {
-//        User user = userDAO.getUser(account);
-//        return user;
-//    }
     public User getUserMessageByAccount(String account) {
         User user = userDAO.getUserByAccount(account);
         return user;
     }
 
-    /**
-     *
-     * @param user : the user to be signed
-     * @return  0 : account has existed, sign up fail;
-     *          1 : sign up succeed;
-     */
     public int signUp(User user) {
 
         if (judgeAccountExist(user.getAccount()) == ACCOUNT_EXISTS) {
@@ -57,23 +36,8 @@ public class UserService{
         }
         userDAO.insertUser(user);
         return 1;
-//        String accountToBeSignedUp = user.getAccount();
-//        User userToBeSignedUp = userDAO.getUser(accountToBeSignedUp);
-//        if (userToBeSignedUp != null) {
-//            return 1;
-//        }
-//        // insert the user to the database
-//        userDAO.insertUser(userToBeSignedUp);
-//        return 0;
     }
 
-    /**
-     *
-     * @param   user: use the account and password that the client post to the server to create, used to judge
-     *              if the logging in will be succeed or not.
-     * @return  0 : account not exist or password is wrong;
-     *          uid : log in succeed;
-     */
     public int logIn(User user) {
 
         String passwordInput = user.getPassword();
@@ -91,14 +55,28 @@ public class UserService{
         }
     }
 
+    public int updateName(User user) {
+        userDAO.updateUserName(user.getAccount(), user.getUser_name());
+        return 1;
+    }
+
+    public int updatePassword(User user) {
+        userDAO.updateUserPassword(user.getAccount(), user.getPassword());
+        return 1;
+    }
+
+    public List<User> getConnectedUser(String account, String identify) {
+        return null;
+    }
+
+
     private int judgeAccountExist(String account) {
         User userToBeJudge = userDAO.getUserByAccount(account);
         if (userToBeJudge != null) {
             return ACCOUNT_EXISTS;
         } else {
-            return ACCOUNT_NOT_EXISTS;
+             return ACCOUNT_NOT_EXISTS;
         }
     }
-
 
 }

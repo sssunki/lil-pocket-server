@@ -1,18 +1,17 @@
 package com.example.lilpocket.Controller;
 
+import com.example.lilpocket.Bean.ConnectedMap;
 import com.example.lilpocket.Bean.User;
 import com.example.lilpocket.Service.UserService;
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 /**
- * method: sign in, log in, get message
+ * method: sign in, log in, get message, update message.
  */
 @RestController
 @RequestMapping("/user")
@@ -42,6 +41,20 @@ public class UserController {
         return userService.getUserMessageByAccount(account);
     }
 
+    @PostMapping("/update/name")
+    public int updateUserMessage(@RequestBody User user) {
+        return userService.updateName(user);
+    }
+
+    @PostMapping("/update/password")
+    public int updateUserPassword(@RequestBody User user) {
+        return userService.updatePassword(user);
+    }
+
+    public List<ConnectedMap> getConnectedMap(@RequestBody String account, @RequestBody String identify){
+
+        return null;
+    }
     /**
      * test method, use to test the some behavior of spring
      * @return behavior return

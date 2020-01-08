@@ -3,15 +3,30 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lilpocket.DAO.UserDAO">
+
     <select id="getUserByAccount" parameterType="String" resultType="com.example.lilpocket.Bean.User">
         select
         *
         from user_test
         where account = #{account}
     </select>
+
     <insert id="insertUser" parameterType="com.example.lilpocket.Bean.User">
         insert into user_test
         values
         (#{uid}, #{user_name}, #{identify}, #{account}, #{password})
     </insert>
+
+    <update id="updateUserName" parameterType="String" >
+        update user_test
+        SET user_name = #{name}
+        WHERE account = #{account}
+    </update>
+
+    <update id="updateUserPassword" parameterType="String">
+        update user_test
+        SET password = #{password}
+        WHERE account = #{account}
+    </update>
+
 </mapper>

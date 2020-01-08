@@ -11,25 +11,25 @@ import java.util.List;
  * method : return note message , return by send account ,return by receiver account
  */
 
-@RestController
-@RequestMapping("/note")
+//@RestController
+//@RequestMapping("/note")
 public class NoteController {
 
-    @Autowired
+//    @Autowired
     private NoteService noteService;
 
-    @Autowired
+//    @Autowired
     public NoteController(NoteService service) {
         this.noteService = service;
     }
 
     @GetMapping
     public List<Note> getNoteByReceiveAccount(@RequestBody String account) {
-
+        return null;
     }
 
     @GetMapping
     public List<Note> getNoteBySendAccount(@RequestBody String account) {
-
+        return null;
     }
 }

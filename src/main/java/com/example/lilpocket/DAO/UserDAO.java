@@ -12,6 +12,7 @@ public interface UserDAO {
 
     User getUserByAccount(String account);
     void insertUser(User user);
-    boolean selectUser(String uid);
-    boolean updateUser(String uid);
+    boolean selectUser(String account);
+    void updateUserName(String account, String name);
+    void updateUserPassword(String account, String password);
 }
