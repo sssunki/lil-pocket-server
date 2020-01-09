@@ -5,11 +5,15 @@ import com.example.lilpocket.Bean.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @Mapper
 public interface ConnectedMapDAO {
-    List<ConnectedMap> getConnectedUserFromParent(String parentAccount);
-    List<ConnectedMap> getConnectedUserFromChild(String childAccount);
+    ArrayList<ConnectedMap> getConnectedUserFromParent(String parentAccount);
+    ArrayList<ConnectedMap> getConnectedUserFromChild(String childAccount);
+
+    int addConnectedMap(ConnectedMap connectedMap);
+    ConnectedMap findConnectedMap(String parentAccount, String childAccount);
 }

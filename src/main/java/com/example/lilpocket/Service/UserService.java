@@ -1,17 +1,19 @@
 package com.example.lilpocket.Service;
 
+import com.example.lilpocket.Bean.ConnectedMap;
 import com.example.lilpocket.Bean.User;
 import com.example.lilpocket.DAO.ConnectedMapDAO;
 import com.example.lilpocket.DAO.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService{
 
-    private ConnectedMapDAO connetctedUserDAO;
+    private ConnectedMapDAO connectedMapDAO;
     private UserDAO userDAO;
     private final int ACCOUNT_EXISTS = 1;
     private final int ACCOUNT_NOT_EXISTS = 0;
@@ -19,14 +21,13 @@ public class UserService{
     // public method will be call by controller
 
     @Autowired
-    public UserService(UserDAO userDAO, ConnectedMapDAO connetctedUserDAO) {
+    public UserService(UserDAO userDAO, ConnectedMapDAO connectedMapDAO) {
         this.userDAO = userDAO;
-        this.connetctedUserDAO = connetctedUserDAO;
+        this.connectedMapDAO = connectedMapDAO;
     }
 
     public User getUserMessageByAccount(String account) {
-        User user = userDAO.getUserByAccount(account);
-        return user;
+        return userDAO.getUserByAccount(account);
     }
 
     public int signUp(User user) {
@@ -66,7 +67,40 @@ public class UserService{
     }
 
     public List<User> getConnectedUser(String account, String identify) {
-        return null;
+        List<User> connectedUsers = new ArrayList<>();
+        List<ConnectedMap> connectedMaps;
+        String targetAccount;
+
+        if (identify.equals("parent")) {
+            connectedMaps = connectedMapDAO.getConnectedUserFromParent(account);
+            for (ConnectedMap connectedMap : connectedMaps) {
+                targetAccount = connectedMap.getChildAccount();
+                connectedUsers.add(userDAO.getUserByAccount(targetAccount));
+            }
+        } else {
+            connectedMaps = connectedMapDAO.getConnectedUserFromChild(account);
+            for (ConnectedMap connectedMap : connectedMaps) {
+                targetAccount = connectedMap.getChildAccount();
+                connectedUsers.add(userDAO.getUserByAccount(targetAccount));
+            }
+        }
+
+        return connectedUsers;
+    }
+
+    public int addConnection(ConnectedMap connectedMap) {
+        String parentAccount = connectedMap.getParentAccount();
+        String childAccount = connectedMap.getChildAccount();
+        ConnectedMap targetConnectedMap;
+        targetConnectedMap = connectedMapDAO.findConnectedMap(parentAccount, childAccount);
+
+        if (targetConnectedMap == null) {
+            connectedMapDAO.addConnectedMap(connectedMap);
+            return 1;
+        } else {
+            return 0;
+        }
+
     }
 
 

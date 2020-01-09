@@ -51,9 +51,19 @@ public class UserController {
         return userService.updatePassword(user);
     }
 
-    public List<ConnectedMap> getConnectedMap(@RequestBody String account, @RequestBody String identify){
+    public List<User> getConnectedMap(@RequestBody User user){
+        String userAccount = user.getAccount();
+        String userIdentify = user.getIdentify();
+        return userService.getConnectedUser(userAccount, userIdentify);
+    }
 
-        return null;
+    public User searchUser(@RequestBody String searchAccount) {
+        return userService.getUserMessageByAccount(searchAccount);
+    }
+
+    public int addConnection(@RequestBody ConnectedMap connectedMap) {
+
+        return 0;
     }
     /**
      * test method, use to test the some behavior of spring
