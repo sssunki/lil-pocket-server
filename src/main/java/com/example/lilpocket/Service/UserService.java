@@ -80,8 +80,9 @@ public class UserService{
         } else {
             connectedMaps = connectedMapDAO.getConnectedUserFromChild(account);
             for (ConnectedMap connectedMap : connectedMaps) {
-                targetAccount = connectedMap.getChildAccount();
+                targetAccount = connectedMap.getParentAccount();
                 connectedUsers.add(userDAO.getUserByAccount(targetAccount));
+                System.out.println("target Account add " + targetAccount);
             }
         }
 
@@ -96,11 +97,21 @@ public class UserService{
 
         if (targetConnectedMap == null) {
             connectedMapDAO.addConnectedMap(connectedMap);
+            addSuccessTest(connectedMap);
             return 1;
         } else {
+            addFailTest(targetConnectedMap);
             return 0;
         }
 
+    }
+
+    private void addFailTest(ConnectedMap targetConnectedMap) {
+        System.out.println(targetConnectedMap.getParentAccount() + "exist, add failed");
+    }
+
+    private void addSuccessTest(ConnectedMap connectedMap) {
+        System.out.println("add " + connectedMap.getParentName() + " success");
     }
 
 

@@ -19,5 +19,20 @@
         from connected_user
         where parentAccount = #{parentAccount}
     </select>
+    
+    <insert id="addConnectedMap" parameterType="com.example.lilpocket.Bean.ConnectedMap">
+        insert into connected_user
+        values
+        ( #{parentAccount}, #{childAccount}, #{parentName}, #{childName} )
+    </insert>
+
+    <select id="findConnectedMap" parameterType="String"
+            resultType="com.example.lilpocket.Bean.ConnectedMap">
+        select
+        *
+        from connected_user
+        where parentAccount = #{parentAccount}
+             AND childAccount = #{childAccount}
+    </select>
 
 </mapper>

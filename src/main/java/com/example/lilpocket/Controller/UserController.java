@@ -51,20 +51,23 @@ public class UserController {
         return userService.updatePassword(user);
     }
 
+    @PostMapping("/connected/gets")
     public List<User> getConnectedMap(@RequestBody User user){
         String userAccount = user.getAccount();
         String userIdentify = user.getIdentify();
         return userService.getConnectedUser(userAccount, userIdentify);
     }
 
+    @PostMapping("/search")
     public User searchUser(@RequestBody String searchAccount) {
         return userService.getUserMessageByAccount(searchAccount);
     }
 
+    @PostMapping("/connected/add")
     public int addConnection(@RequestBody ConnectedMap connectedMap) {
-
-        return 0;
+        return userService.addConnection(connectedMap);
     }
+
     /**
      * test method, use to test the some behavior of spring
      * @return behavior return

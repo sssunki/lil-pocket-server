@@ -1,5 +1,6 @@
 package com.example.lilpocket.Bean;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,18 @@ public class ConnectedMap {
     private String childName;
     private String childAccount;
 
-    public ConnectedMap(String parentName, String parentAccount, String childName, String childAccount) {
-        this.parentName = parentName;
+    public ConnectedMap(){
+
+    }
+
+    public ConnectedMap( @Param("parentAccount") String parentAccount,
+                        @Param("childAccount") String childAccount,
+                        @Param("parentName") String parentName,
+                        @Param("childName") String childName) {
         this.parentAccount = parentAccount;
-        this.childName = childName;
         this.childAccount = childAccount;
+        this.parentName = parentName;
+        this.childName = childName;
     }
 
     public String getParentName() {
