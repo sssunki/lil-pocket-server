@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lilpocket.DAO.DateTestDAO">
+
+    <insert id="insertDateTestBean" parameterType="com.example.lilpocket.Bean.DateTestBean">
+        insert into date_test
+        values
+        ( #{dateTest}, #{dateCode} )
+    </insert>
+
+    <select id="getDateTestBeanByCode" parameterType="int"
+            resultType="com.example.lilpocket.Bean.DateTestBean">
+        select
+        *
+        from date_test
+        where dateCode = #{dateCode}
+    </select>
+
+</mapper>

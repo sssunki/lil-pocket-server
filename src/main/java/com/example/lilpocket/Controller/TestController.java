@@ -1,5 +1,8 @@
 package com.example.lilpocket.Controller;
 
+import com.example.lilpocket.Bean.DateTestBean;
+import com.example.lilpocket.Service.TestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +16,27 @@ import java.util.List;
 public class TestController {
 
     private volatile String accounts;
+
+    @Autowired
+    private TestService testService;
+
+    @Autowired
+    public TestController(TestService testService) {
+        this.testService = testService;
+    }
+
+    @PostMapping("/date/add")
+    public int addDateTestBean(@RequestBody DateTestBean dateTestBean) {
+        return testService.addDateTestBean(dateTestBean);
+    }
+
+
+    @PostMapping("/date/get")
+    public DateTestBean getDateTestBeanByCode(@RequestBody int dateCode) {
+        return testService.getDateTestBeanByCode(dateCode);
+    }
+
+
     private class StringChange{
         String afterChange;
 
