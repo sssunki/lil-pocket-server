@@ -27,6 +27,7 @@ public class TestController {
 
     @PostMapping("/date/add")
     public int addDateTestBean(@RequestBody DateTestBean dateTestBean) {
+        System.out.println(dateTestBean.getDate());
         return testService.addDateTestBean(dateTestBean);
     }
 

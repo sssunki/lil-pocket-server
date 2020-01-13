@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Alias(value = "DateTestBean")
 @Component
