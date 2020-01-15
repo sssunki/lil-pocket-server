@@ -2,6 +2,7 @@ package com.example.lilpocket.Service;
 
 import com.example.lilpocket.Bean.Memory;
 import com.example.lilpocket.DAO.MemoryDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -12,19 +13,21 @@ public class MemoryService {
 
     private MemoryDAO memoryDAO;
 
+    @Autowired
     public MemoryService(MemoryDAO memoryDAO) {
         this.memoryDAO = memoryDAO;
     }
 
-    private int addMemory(Memory memory) {
+    public int addMemory(Memory memory) {
+        memoryDAO.addMemory(memory);
         return 0;
     }
 
-    private List<Memory> getRelatedMemory(String relatedAccount) {
-        return null;
+    public List<Memory> getMemoryFromReceiver(String receiveAccount) {
+        return memoryDAO.getMemoryListFromReceiver(receiveAccount);
     }
 
-    private List<Memory> getMemoryFromSender(String sendAccount) {
-        return null;
+    public List<Memory> getMemoryFromSender(String sendAccount) {
+        return memoryDAO.getMemoryListFromSend(sendAccount);
     }
 }

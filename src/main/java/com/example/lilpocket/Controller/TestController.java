@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +28,12 @@ public class TestController {
 
     @PostMapping("/date/add")
     public int addDateTestBean(@RequestBody DateTestBean dateTestBean) {
-        System.out.println(dateTestBean.getDate());
+        try {
+            dateTestBean.setDateTest(Timestamp.valueOf(dateTestBean.getDateTestSend()));
+        }catch (Exception e) {
+            e.printStackTrace();
+        };
+        System.out.println(dateTestBean.getDateTest());
         return testService.addDateTestBean(dateTestBean);
     }
 

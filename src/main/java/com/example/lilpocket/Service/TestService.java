@@ -21,6 +21,8 @@ public class TestService {
 
     public int addDateTestBean(DateTestBean dateTestBean) {
         int resultNumber = 1;
+        System.out.println(dateTestBean.getDateCode());
+        System.out.println(dateTestBean.getDateTest());
         dateTestDAO.insertDateTestBean(dateTestBean);
         return resultNumber;
     }

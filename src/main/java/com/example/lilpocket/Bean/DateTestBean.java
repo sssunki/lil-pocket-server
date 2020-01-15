@@ -4,30 +4,40 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Alias(value = "DateTestBean")
 @Component
 public class DateTestBean {
-    private Date date;
+
+    private String dateTestSend;
+    private Timestamp dateTest;
     private int dateCode;
 
     public DateTestBean() {
 
     }
 
-    public DateTestBean(@Param("dateTest") Date date ,
+    public DateTestBean(@Param("dateTest") Timestamp dateTest,
                         @Param("dateCode") int dateCode) {
-        this.date = date;
+        this.dateTest = dateTest;
         this.dateCode = dateCode;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateTestSend() {
+        return dateTestSend;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTestSend(String dateTestSend) {
+        this.dateTestSend = dateTestSend;
+    }
+
+    public Timestamp getDateTest() {
+        return dateTest;
+    }
+
+    public void setDateTest(Timestamp dateTest) {
+        this.dateTest = dateTest;
     }
 
     public int getDateCode() {
