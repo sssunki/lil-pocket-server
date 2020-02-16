@@ -1,13 +1,22 @@
 package com.example.lilpocket.Controller;
 
 import com.example.lilpocket.Bean.DateTestBean;
+import com.example.lilpocket.Bean.UploadFileResponse;
+import com.example.lilpocket.Service.FileService;
 import com.example.lilpocket.Service.TestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,9 +26,53 @@ import java.util.List;
 public class TestController {
 
     private volatile String accounts;
+    private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private FileService fileService;
+
+    @PostMapping("/uploadFile")
+    public UploadFileResponse uploadFile(@RequestParam("files") MultipartFile file) {
+        String fileName = fileService.storeFile(file);
+
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/downloadFile")
+                .path(fileName)
+                .toUriString();
+
+        return new UploadFileResponse(fileName, fileDownloadUri,
+                file.getContentType(), file.getSize());
+    }
+
+    @GetMapping("/downloadFile/{fileName:.+}")
+    public ResponseEntity<Resource> downloadFile(
+            @PathVariable String fileName,
+            HttpServletRequest request) {
+        Resource resource = fileService.loadFileAsResource(fileName);
+
+        String contentType = null;
+        try {
+            contentType = request.getServletContext().getMimeType(
+                    resource.getFile().getAbsolutePath()
+            );
+        } catch (IOException e) {
+            logger.info("Could not ");
+        }
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" +
+                        resource.getFilename() + "\"")
+                .body(resource);
+    }
 
     @Autowired
     public TestController(TestService testService) {

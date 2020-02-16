@@ -5,6 +5,7 @@ import com.example.lilpocket.Bean.User;
 import com.example.lilpocket.Service.MemoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,21 +25,35 @@ public class MemoryController {
         this.memoryService = memoryService;
     }
 
-    @PostMapping("/add")
-    public int addMemory(@RequestBody Memory memory) {
+    @PostMapping("/addMemoryBody")
+    public int addMemoryBody(@RequestBody Memory memory) {
         return memoryService.addMemory(memory);
     }
 
-    @PostMapping("/get/send")
+    @PostMapping("/addMemoryFile")
+    public int addMemoryFile(@RequestParam("files")MultipartFile file) {
+        return 0;
+    }
+
+    @PostMapping("/getList/sender")
     public List<Memory> getMemoryBySendAccount(@RequestBody User user) {
         return memoryService.getMemoryFromSender(user.getAccount());
     }
 
-    @PostMapping("/get/receiver")
+    @PostMapping("/getSpecific/receiver")
+    public void getSpecificFromReceiver(@RequestParam int id, @RequestParam String account) {
+
+    }
+
+    @PostMapping("/getSpecific/sender")
+    public void getSpecificFromSender(@RequestParam int id, @RequestParam String account) {
+
+    }
+
+    @PostMapping("/getList/receiver")
     public List<Memory> getMemoryByReceiveAccount(@RequestBody User user) {
         return memoryService.getMemoryFromReceiver(user.getAccount());
     }
-
 
 
 }
