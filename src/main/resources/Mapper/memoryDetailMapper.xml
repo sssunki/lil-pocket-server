@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lilpocket.DAO.MemoryDetailDAO" >
+
+    <select id="getMemoryDetail" parameterType="String"
+            resultType="com.example.lilpocket.Bean.MemoryDetail">
+        select
+        *
+        from memory_detail_table
+        where memoryId = #{memoryId}
+    </select>
+
+    <select id="addMemoryDetail" parameterType="com.example.lilpocket.Bean.MemoryDetail">
+        insert into memory_detail_table
+        values
+        ( #{sendAccount}, #{receiveAccount}, #{memoryTimestamp}, #{fileCount}, #{content}
+        #{title}, #{memoryId} )
+    </select>
+
+</mapper>

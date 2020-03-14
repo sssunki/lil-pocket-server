@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.lilpocket.DAO.ConnectedMapDAO">
 
-    <select id="getConnectedUserFromChild" parameterType="String"
+    <select id="getConnectedUserFromChild"
+            parameterType="String"
             resultType="com.example.lilpocket.Bean.ConnectedMap">
         select
         *
@@ -12,7 +13,8 @@
         where childAccount = #{childAccount}
     </select>
 
-    <select id="getConnectedUserFromParent" parameterType="String"
+    <select id="getConnectedUserFromParent"
+            parameterType="String"
             resultType="com.example.lilpocket.Bean.ConnectedMap">
         select
         *
@@ -20,7 +22,8 @@
         where parentAccount = #{parentAccount}
     </select>
     
-    <insert id="addConnectedMap" parameterType="com.example.lilpocket.Bean.ConnectedMap">
+    <insert id="addConnectedMap"
+            parameterType="com.example.lilpocket.Bean.ConnectedMap">
         insert into connected_user
         values
         ( #{parentAccount}, #{childAccount}, #{parentName}, #{childName} )

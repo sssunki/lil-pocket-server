@@ -1,33 +1,50 @@
 package com.example.lilpocket.Service;
 
-import com.example.lilpocket.Bean.Memory;
-import com.example.lilpocket.DAO.MemoryDAO;
+import com.example.lilpocket.Bean.MemoryDetail;
+import com.example.lilpocket.Bean.MemorySummary;
+import com.example.lilpocket.DAO.MemoryDetailDAO;
+import com.example.lilpocket.DAO.MemorySummaryDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class MemoryService {
 
-    private MemoryDAO memoryDAO;
+    private MemoryDetailDAO memoryDAO;
+    private MemorySummaryDAO memorySummaryDAO;
 
     @Autowired
-    public MemoryService(MemoryDAO memoryDAO) {
+    public MemoryService(MemoryDetailDAO memoryDAO, MemorySummaryDAO memorySummaryDAO) {
         this.memoryDAO = memoryDAO;
+        this.memorySummaryDAO = memorySummaryDAO;
     }
 
-    public int addMemory(Memory memory) {
-        memoryDAO.addMemory(memory);
-        return 0;
+    public void addMemoryFile() {
+        // todo: the logic of save the files. the file should be named as memoryId + int;
     }
 
-    public List<Memory> getMemoryFromReceiver(String receiveAccount) {
-        return memoryDAO.getMemoryListFromReceiver(receiveAccount);
+    public void getMemoryFile() {
+        // todo: the login of get the files, including find the file according to the memoryId;
     }
 
-    public List<Memory> getMemoryFromSender(String sendAccount) {
-        return memoryDAO.getMemoryListFromSend(sendAccount);
+    public List<MemorySummary> getMemorySummaryFromSender(String account) {
+        return memorySummaryDAO.getMemorySummaryFromSender(account);
     }
+
+
+    public List<MemorySummary> getMemorySummaryFromReceiver(String account) {
+        return memorySummaryDAO.getMemorySummaryFromReceiver(account);
+    }
+
+    public MemoryDetail getMemoryDetail(String memoryId) {
+        return memoryDAO.getMemoryDetail(memoryId);
+    }
+
+    public void addMemoryDetailMessage(MemoryDetail memoryDetail) {
+        memoryDAO.addMemoryDetail(memoryDetail);
+        memorySummaryDAO.addMemorySummary(MemorySummary.createFromMemoryDetail(memoryDetail));
+    }
+
 }

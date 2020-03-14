@@ -1,17 +1,16 @@
 package com.example.lilpocket.Controller;
 
-import com.example.lilpocket.Bean.Memory;
+import com.example.lilpocket.Bean.MemoryDetail;
+import com.example.lilpocket.Bean.MemorySummary;
 import com.example.lilpocket.Bean.User;
 import com.example.lilpocket.Service.MemoryService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RunAs;
 import java.util.List;
-
-/**
- * method : return memory message, return by send account ,return by related account
- */
 
 @RestController
 @RequestMapping("/memory")
@@ -25,35 +24,36 @@ public class MemoryController {
         this.memoryService = memoryService;
     }
 
-    @PostMapping("/addMemoryBody")
-    public int addMemoryBody(@RequestBody Memory memory) {
-        return memoryService.addMemory(memory);
+    @PostMapping("/add/detail")
+    public int addMemoryBody(@RequestBody MemoryDetail memory) {
+        memoryService.addMemoryDetailMessage(memory);
+        return 1;
     }
 
-    @PostMapping("/addMemoryFile")
+    @PostMapping("/add/file")
     public int addMemoryFile(@RequestParam("files")MultipartFile file) {
+        // TODO: complete this method , used to add file;
         return 0;
     }
 
-    @PostMapping("/getList/sender")
-    public List<Memory> getMemoryBySendAccount(@RequestBody User user) {
-        return memoryService.getMemoryFromSender(user.getAccount());
+    @PostMapping("/get/detail")
+    public MemoryDetail getMemoryDetail(String memoryId) {
+        return memoryService.getMemoryDetail(memoryId);
     }
 
-    @PostMapping("/getSpecific/receiver")
-    public void getSpecificFromReceiver(@RequestParam int id, @RequestParam String account) {
-
+    @PostMapping("/get/file")
+    public void getMemoryFile() {
+        // TODO: complete this method, usd to get file;
     }
 
-    @PostMapping("/getSpecific/sender")
-    public void getSpecificFromSender(@RequestParam int id, @RequestParam String account) {
-
+    @PostMapping("/get/summary/sender")
+    public List<MemorySummary> getMemorySummaryFromSender(@RequestBody String account) {
+        return memoryService.getMemorySummaryFromSender(account);
     }
 
-    @PostMapping("/getList/receiver")
-    public List<Memory> getMemoryByReceiveAccount(@RequestBody User user) {
-        return memoryService.getMemoryFromReceiver(user.getAccount());
+    @PostMapping("/get/summary/receiver")
+    public List<MemorySummary> getMemorySummaryFromReceiver(@RequestBody String account) {
+        return memoryService.getMemorySummaryFromReceiver(account);
     }
-
 
 }

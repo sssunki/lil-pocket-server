@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lilpocket.DAO.MemorySummaryDAO">
+
+    <select id="getMemorySummaryFromSender"
+            parameterType="String"
+            resultType="com.example.lilpocket.Bean.MemorySummary">
+        select
+        *
+        from memory_summary_table
+        where sendAccount = #{sendAccount}
+    </select>
+
+    <select id="getMemorySummaryFromReceiver"
+            parameterType="String"
+            resultType="com.example.lilpocket.Bean.MemorySummary">
+        select
+        *
+        from memory_summary_table
+        where receiveAccount = #{receiveAccount}
+    </select>
+
+    <insert id="addMemorySummary"
+            parameterType="com.example.lilpocket.Bean.MemorySummary">
+        insert into memory_summary_table
+        values
+        (#{sendAccount}, #{receiveAccount}, #{title}, #{memoryId}
+        , #{memoryTimestamp})
+    </insert>
+
+</mapper>
